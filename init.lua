@@ -29,8 +29,12 @@ require("lazy").setup(
         'hrsh7th/nvim-cmp',
         'neovim/nvim-lspconfig',
         {
-        'nvim-telescope/telescope.nvim', tag = '0.1.5',
-          dependencies = { 'nvim-lua/plenary.nvim' }
+            'nvim-telescope/telescope.nvim', tag = '0.1.5',
+            dependencies = { 'nvim-lua/plenary.nvim' }
+        },
+        {
+            'folke/trouble.nvim',
+            dependencies = {'nvim-tree/nvim-web-devicons'},
         },
     }
 )
@@ -86,6 +90,10 @@ lspconfig.rust_analyzer.setup {
 --}
 
 lspconfig.pylsp.setup {
+    capabilities = capabilities
+}
+
+lspconfig.als.setup{
     capabilities = capabilities
 }
 
