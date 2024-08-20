@@ -36,8 +36,27 @@ require("lazy").setup(
             'folke/trouble.nvim',
             dependencies = {'nvim-tree/nvim-web-devicons'},
         },
+        {
+            'Julian/lean.nvim',
+            event = {'BufReadPre *.lean', 'BufNewFile *.lean'},
+            dependencies = {
+                'neovim/nvim-lspconfig',
+                'nvim-lua/plenary.nvim',
+            },
+            opt = {
+                lsp = {},
+                mappings = true,
+            }
+        },
+	{'catppuccin/nvim', name= 'catppuccin'},
     }
 )
+
+-- colorscheme
+vim.cmd.colorscheme 'catppuccin'
+vim.api.nvim_set_hl(0,'LineNrAbove', {fg = '#b0b000'})
+vim.api.nvim_set_hl(0,'LineNr', {fg = '#ffff00'})
+vim.api.nvim_set_hl(0,'LineNrBelow', {fg = '#b0b000'})
 
 local cmp = require'cmp'
 
@@ -97,6 +116,19 @@ lspconfig.als.setup{
     capabilities = capabilities
 }
 
+lspconfig.leanls.setup{
+    capabilities = capabilities
+}
+
+lspconfig.hls.setup{
+    capabilities = capabilities,
+    filetypes = {'haskell', 'lhaskell', 'cabal'},
+}
+
+lspconfig.futhark_lsp.setup{
+    --capabilities = capabilities
+}
+
 -- telescope
 local tel_builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', tel_builtin.find_files, {})
@@ -133,3 +165,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
   end,
 })
+
+-- other mappings
+vim.keymap.set('n', '<space>gf', vim.diagnostic.open_float, {})
+
+
