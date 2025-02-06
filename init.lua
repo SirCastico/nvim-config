@@ -21,13 +21,13 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(
     {
-        'hrsh7th/vim-vsnip',
+        'neovim/nvim-lspconfig',
         'hrsh7th/cmp-nvim-lsp',
         'hrsh7th/cmp-buffer',
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-cmdline',
         'hrsh7th/nvim-cmp',
-        'neovim/nvim-lspconfig',
+        'hrsh7th/vim-vsnip',
         {
             'nvim-telescope/telescope.nvim', tag = '0.1.5',
             dependencies = { 'nvim-lua/plenary.nvim' }
@@ -36,18 +36,18 @@ require("lazy").setup(
             'folke/trouble.nvim',
             dependencies = {'nvim-tree/nvim-web-devicons'},
         },
-        {
-            'Julian/lean.nvim',
-            event = {'BufReadPre *.lean', 'BufNewFile *.lean'},
-            dependencies = {
-                'neovim/nvim-lspconfig',
-                'nvim-lua/plenary.nvim',
-            },
-            opt = {
-                lsp = {},
-                mappings = true,
-            }
-        },
+        --{
+        --    'Julian/lean.nvim',
+        --    event = {'BufReadPre *.lean', 'BufNewFile *.lean'},
+        --    dependencies = {
+        --        'neovim/nvim-lspconfig',
+        --        'nvim-lua/plenary.nvim',
+        --    },
+        --    opt = {
+        --        lsp = {},
+        --        mappings = true,
+        --    }
+        --},
 	{'catppuccin/nvim', name= 'catppuccin'},
     }
 )
@@ -109,16 +109,23 @@ lspconfig.rust_analyzer.setup {
 --}
 
 lspconfig.pylsp.setup {
+    settings = {
+        pylsp = {
+            plugins = {
+                pylsp_mypy = { enabled = true }
+            }
+        }
+    },
     capabilities = capabilities
 }
 
-lspconfig.als.setup{
-    capabilities = capabilities
-}
+--lspconfig.als.setup{
+--    capabilities = capabilities
+--}
 
-lspconfig.leanls.setup{
-    capabilities = capabilities
-}
+--lspconfig.leanls.setup{
+--    capabilities = capabilities
+--}
 
 lspconfig.hls.setup{
     capabilities = capabilities,
@@ -169,4 +176,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- other mappings
 vim.keymap.set('n', '<space>gf', vim.diagnostic.open_float, {})
 
+-- stop zig fmt
+vim.g.zig_fmt_autosave = 0
 
